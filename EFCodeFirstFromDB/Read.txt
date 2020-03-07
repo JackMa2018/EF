@@ -1,0 +1,25 @@
+﻿
+个人推崇使用EF的CodeFisrt from DB模式（还有一种是纯CodeFirst）
+
+1、数据库映射的三种方式
+   如果名称相同直接映射，如果名称不同有三种映射方式
+   1.1 属性映射   eg:DemoDistrict
+   1.2 OnModelCreating方法写映射 eg:DemoLoginInfo
+   1.3 映射类文件 eg:DemoUser
+   注意：匹配不区分大小写
+2、查询 eg:EFQueryTest
+   users来自context1,roles来自context2,users和roles是不能jion的，
+   会报错，上下文环境不一样。
+   除非把数据查到内存然后linq的jion
+   延迟查询
+   好处：可以多次拼装查询条件，执行一次查询。按需加载
+   坏处：占用连接资源和循环中多次访问数据库。eg:比如查询出一个集合然后遍历，遍历的过程中连接是没有被释放的，等遍历完才会释放连接。
+3、导航属性（主外键表）
+    导航属性使用条件：1、virtual类型。2、dbContext.Configuration.LazyLoadingEnabled=true;
+    导航属性类型必须是virtual类型。一对多类型ICollection<>
+    命名规范的话，codefirst是可以自动识别的。eg:有一字段CompanyId,有一个表Company会自动识别为导航属性。
+4、事务
+    一个saveChange()就是一个事务
+    若果有多个saveChange想要包装成一个事务用TransactionScope
+    TransactionScope也可以同时用在不同的Context
+   
